@@ -90,26 +90,26 @@ export default function App() {
   };
 
   // 3. DELETE (Deletar)
-  const handleDelete = (id: number) => {
-    Alert.alert(
-      "Confirmar",
-      "Deseja realmente excluir este usuário?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        { 
-          text: "Excluir", 
-          onPress: async () => {
-            try {
-              await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-              fetchUsers();
-            } catch (error) {
-              Alert.alert("Erro", "Não foi possível excluir.");
-            }
-          }
-        }
-      ]
-    );
-  };
+  const handleDelete = async (id: number) => {
+  const confirmDelete =
+    Platform.OS === 'web'
+      ? window.confirm("Deseja realmente excluir este usuário?")
+      : await new Promise<boolean>((resolve) => {
+          Alert.alert(
+            "Confirmar",
+            "Deseja realmente excluir este usuário?",
+            [
+              { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+              { text: "Excluir", onPress: () => resolve(true) }
+            ]
+          );
+        });
+
+  if (!confirmDelete) return;
+
+  await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+  fetchUsers();
+};
 
   // Prepara formulário para edição
   const handleEdit = (user: User) => {

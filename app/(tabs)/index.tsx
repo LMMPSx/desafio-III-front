@@ -20,7 +20,7 @@ import {
 // Substitua pelo IPv4 da sua máquina (ex: 192.168.0.15)
 // No Windows, rode 'ipconfig'. No Mac/Linux, rode 'ifconfig'.
 // NÃO use 'localhost' se estiver testando no celular físico ou emulador Android.
-const API_URL = 'http://192.168.1.100:8080/api/users'; 
+const API_URL = 'http://192.168.0.109:8080/user'; 
 
 // Interface para definir a estrutura do Usuário
 interface User {
